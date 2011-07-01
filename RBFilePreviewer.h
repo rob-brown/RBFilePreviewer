@@ -33,6 +33,15 @@
 - (id)initWithFile:(id<QLPreviewItem>)file;
 
 /**
+ *  Creates a file previewer from the given files. The array must not be empty.
+ *
+ *  @param theFiles An array of QLPreviewItems.
+ *
+ *  @return self
+ */
+- (id)initWithFiles:(NSArray *)theFiles;
+
+/**
  *  This should be called before creating RBFileViewer. Quick Look is not 
  *  supported on pre-4.0 devices. Returns YES if Quick Look is supported.
  *

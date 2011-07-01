@@ -28,26 +28,14 @@
 @interface RBFilePreviewer ()
 
 @property (nonatomic, retain) NSArray * files;
-
-/**
- *  Creates a file previewer from the given files. There must be at least one
- *  QLPreviewItem in the array.
- *
- *  @todo Fix this to work with multiple files. For some reason the arrows in 
- *  the UIToolbar disappear.
- *
- *  @param theFiles An array of QLPreviewItems.
- *
- *  @return self
- */
-- (id)initWithFiles:(NSArray *)theFiles;
+@property (nonatomic, assign) BOOL loadFinished;
 
 @end
 
 
 @implementation RBFilePreviewer
 
-@synthesize files;
+@synthesize files, loadFinished;
 
 - (id)initWithFile:(id<QLPreviewItem>)file {
     
@@ -77,6 +65,14 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations.
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+// This is a hack to fix the arrow disappearing problem. 
+- (Class)class {
+    if ([self loadFinished])
+        return [super class];
+    else
+        return [QLPreviewController class];
 }
 
 
@@ -132,6 +128,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self setLoadFinished:YES];
 }
 
 

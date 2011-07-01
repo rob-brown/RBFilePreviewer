@@ -4,10 +4,7 @@
 `RBFilePreviewer` is a subclass of `QLPreviewController`. It is intended to make it easy to preview any `QLPreviewItem`. All you need to do is pass it the desired item(s) to preview to the appropriate initializer. You may use the provided `RBFile` class or any other class that conforms to `QLPreviewItem` (including `NSURL`).
 
 ##Dependencies
-`RBFile` requires my `NSURL+RBExtras` category. It can be found in my [RBCategories repository][1]. If you don't use `RBFile`, then you don't need to include `NSURL+RBExtras`.
-
-##Known Bugs
-For some weird reason, the arrows that change which item is being previewed don't appear. So, multiple document previewing is disabled by default. It may be re-enabled by moving -initWithFiles: into the header file. Better yet, the bug could be fixed. Hopefully this bug is not due to `QLPreviewController` being unsafe to subclass.
+`RBFile` requires my `NSURL+RBExtras` category. It can be found in my [RBCategories repository][1]. `RBFile` is optional, so if you don't include it, then you don't need to include `NSURL+RBExtras`.
 
 ##License
 
