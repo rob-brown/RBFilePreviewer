@@ -6,6 +6,9 @@
 ##Dependencies
 `RBFile` requires my `NSURL+RBExtras` category. It can be found in my [RBCategories repository][1]. `RBFile` is optional, so if you don't include it, then you don't need to include `NSURL+RBExtras`.
 
+##Acknowledgments
+`RBFilePreviewer` includes a couple icons from Joseph Wain. See Glyphish.com for more details. To get the 2x sizes of the icons, you must buy the Glyphish Pro icon pack. 
+
 ##License
 
 `RBFilePreviewer` is licensed under the MIT license, which is reproduced in its entirety here:

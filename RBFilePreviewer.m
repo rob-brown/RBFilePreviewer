@@ -27,15 +27,36 @@
 
 @interface RBFilePreviewer ()
 
-@property (nonatomic, retain) NSArray * files;
-@property (nonatomic, assign) BOOL loadFinished;
+/// An array of QLPreviewItems that can be previewed. 
+@property (nonatomic, copy) NSArray * files;
+
+/// A flag to indicate if the toolbar has been loaded and no longer needs to be loaded.
+@property (nonatomic, assign) BOOL toolBarLoaded;
+
+/// The previous document button.
+@property (nonatomic, retain) UIBarButtonItem * leftButton;
+
+/// the next document button.
+@property (nonatomic, retain) UIBarButtonItem * rightButton;
+
+/// Returns true if this view controller was presented modally. False otherwise. 
+- (BOOL)isModalViewController;
+
+/// Removes the action button from the navigation bar if desired.
+- (void)removeActionButtonIfApplicable;
+
+/// Adds a toolbar to the view if it's needed.
+- (void)addToolbarIfApplicable;
+
+/// Updates the enabled/disabled state of the document navigation arrows.
+- (void)updateArrows;
 
 @end
 
 
 @implementation RBFilePreviewer
 
-@synthesize files, loadFinished;
+@synthesize showActionButton, files, toolBarLoaded, leftButton, rightButton;
 
 - (id)initWithFile:(id<QLPreviewItem>)file {
     
@@ -48,16 +69,108 @@
     
     if ((self = [super init])) {
 		
+        [self setShowActionButton:YES];
 		[self setFiles:theFiles];
-		self.dataSource = self;
-        self.delegate = self;
-		self.currentPreviewItemIndex = 0;
+        [self setDataSource:self];
+        [self setDelegate:self];
+        [self setCurrentPreviewItemIndex:0];
     }
 	
     return self;
 }
 
-+ (BOOL) isFilePreviewingSupported {
+- (BOOL)isModalViewController {
+    return ([[[self navigationController] parentViewController] modalViewController] || 
+            [[self parentViewController] modalViewController]);
+}
+
+- (IBAction)dismissView:(id)sender {
+    
+    if ([self isModalViewController])
+        [[self navigationController] dismissModalViewControllerAnimated:YES];
+    else
+        [[self navigationController] popViewControllerAnimated:YES];
+}
+
+- (IBAction)showPreviousDocument:(id)sender {
+    [self setCurrentPreviewItemIndex:[self currentPreviewItemIndex] - 1];
+}
+
+- (IBAction)showNextDocument:(id)sender {
+    [self setCurrentPreviewItemIndex:[self currentPreviewItemIndex] + 1];
+}
+
+- (void)setCurrentPreviewItemIndex:(NSInteger)index {
+    
+    NSInteger max = [[self files] count];
+    
+    if (index < 0 || index >= max)
+        return;
+    
+    [super setCurrentPreviewItemIndex:index];
+    [self updateArrows];
+    [self removeActionButtonIfApplicable];
+}
+
+- (void)updateArrows {
+    
+    NSInteger index = [self currentPreviewItemIndex];
+    NSInteger max = [[self files] count];
+    
+    [[self rightButton] setEnabled:(index < max - 1)];
+    [[self leftButton] setEnabled:(index != 0)];
+}
+
+- (void)removeActionButtonIfApplicable {
+    
+    // Hides the action button if not wanted.
+    if (![self showActionButton])
+        [[self navigationItem] setRightBarButtonItem:nil 
+                                            animated:NO];
+}
+
+- (void)addToolbarIfApplicable {
+    
+    // Adds a toolbar to the view so it's available to both pushed views and modal views.
+    if (![self toolBarLoaded] && [[self files] count] > 1) {
+        
+        const CGFloat kStandardHeight = 44.0f;
+        CGFloat superViewWidth = self.view.frame.size.width;
+        CGFloat superViewHeight = self.view.frame.size.height;
+        CGRect frame = CGRectMake(0, 
+                                  superViewHeight - kStandardHeight, 
+                                  superViewWidth, 
+                                  kStandardHeight);
+        
+        UIToolbar * toolbar = [[UIToolbar alloc] initWithFrame:frame];
+        UIBarButtonItem * left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow-left.png"]
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self 
+                                                                 action:@selector(showPreviousDocument:)];
+        UIBarButtonItem * right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow-right.png"]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self 
+                                                                  action:@selector(showNextDocument:)];
+        
+        UIBarButtonItem * flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                        target:nil 
+                                                                                        action:nil];
+        
+        [toolbar setItems:[NSArray arrayWithObjects:flexibleSpace, left, flexibleSpace, right, flexibleSpace, nil]];
+        [self setLeftButton:left];
+        [self setRightButton:right];
+        [[self view] addSubview:toolbar];
+        [toolbar release];
+        [left release];
+        [right release];
+        [flexibleSpace release];
+        
+        [self updateArrows];
+        [self setToolBarLoaded:YES];
+    }
+}
+
++ (BOOL)isFilePreviewingSupported {
 	
 	return NSClassFromString(@"QLPreviewController") != nil;
 }
@@ -65,14 +178,6 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations.
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-// This is a hack to fix the arrow disappearing problem. 
-- (Class)class {
-    if ([self loadFinished])
-        return [super class];
-    else
-        return [QLPreviewController class];
 }
 
 
@@ -106,7 +211,7 @@
 #pragma mark - UIDocumentInteractionControllerDelegate
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)interactionController {
-    return self.parentViewController;
+    return [self parentViewController];
 }
 
 // TODO: Add more support for UIDocumentInteractionController.
@@ -116,10 +221,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSAssert([self navigationController], @"RBFilePreviewer must be in a nav controller.");
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
+    
+    [self setToolBarLoaded:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -129,7 +238,18 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self setLoadFinished:YES];
+    [self removeActionButtonIfApplicable];
+    
+    // Overrides the original done button if the previewer was presented modally.
+    if ([self isModalViewController]) {
+        UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+                                                                                     target:self 
+                                                                                     action:@selector(dismissView:)];
+        [[self navigationItem] setLeftBarButtonItem:doneButton];
+        [doneButton release];
+    }
+    
+    [self addToolbarIfApplicable];
 }
 
 
@@ -141,9 +261,10 @@
 }
 
 - (void)dealloc {
-	[files release];
+	[self setFiles:nil];
+    [self setLeftButton:nil];
+    [self setRightButton:nil];
     [super dealloc];
 }
-
 
 @end

@@ -27,9 +27,23 @@
 
 #import "RBFile.h"
 
-
+/**
+ * A subclass of QLPreviewController to make previewing files even easier. 
+ * Unlike QLPreviewController, RBFilePreviewer show the document navigation 
+ * toolbar both when the previewer is pushed or presented modally. You can also 
+ * remove the action button if you so desire.
+ *
+ * NOTE: You must wrap RBFilePreviewer in a navigation controller if you present 
+ * it modally.
+ */
 @interface RBFilePreviewer : QLPreviewController <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate>
 
+/// You may remove the action button if you don't want it.
+@property (nonatomic, assign) BOOL showActionButton;
+
+/**
+ * Convenience method if you just want to preview on file;
+ */
 - (id)initWithFile:(id<QLPreviewItem>)file;
 
 /**
@@ -47,6 +61,11 @@
  *
  *  @return YES if Quick Look is supported.
  */
-+ (BOOL) isFilePreviewingSupported;
++ (BOOL)isFilePreviewingSupported;
+
+/**
+ * Dismisses the file previewer. Takes into account if the view was presented modally.
+ */
+- (IBAction)dismissView:(id)sender;
 
 @end
