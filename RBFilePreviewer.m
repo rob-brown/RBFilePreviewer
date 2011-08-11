@@ -56,7 +56,12 @@
 
 @implementation RBFilePreviewer
 
-@synthesize showActionButton, files, toolBarLoaded, leftButton, rightButton;
+@synthesize showActionButton;
+@synthesize files;
+@synthesize toolBarLoaded;
+@synthesize leftButton;
+@synthesize rightButton;
+@synthesize rightBarButtonItem;
 
 - (id)initWithFile:(id<QLPreviewItem>)file {
     
@@ -123,8 +128,11 @@
 
 - (void)removeActionButtonIfApplicable {
     
+    // Replaces the action button if desired.
+    if ([self rightBarButtonItem])
+        [[self navigationItem] setRightBarButtonItem:[self rightBarButtonItem]];
     // Hides the action button if not wanted.
-    if (![self showActionButton])
+    else if (![self showActionButton])
         [[self navigationItem] setRightBarButtonItem:nil 
                                             animated:NO];
 }
@@ -171,7 +179,6 @@
 }
 
 + (BOOL)isFilePreviewingSupported {
-	
 	return NSClassFromString(@"QLPreviewController") != nil;
 }
 
@@ -264,6 +271,7 @@
 	[self setFiles:nil];
     [self setLeftButton:nil];
     [self setRightButton:nil];
+    [self setRightBarButtonItem:nil];
     [super dealloc];
 }
 

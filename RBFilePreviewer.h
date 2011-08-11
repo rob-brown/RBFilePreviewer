@@ -41,6 +41,9 @@
 /// You may remove the action button if you don't want it.
 @property (nonatomic, assign) BOOL showActionButton;
 
+/// You may add a custom right bar button item instead of using the print button.
+@property (nonatomic, retain) UIBarButtonItem * rightBarButtonItem;
+
 /**
  * Convenience method if you just want to preview on file;
  */
