@@ -44,6 +44,13 @@
 /// You may add a custom right bar button item instead of using the print button.
 @property (nonatomic, retain) UIBarButtonItem * rightBarButtonItem;
 
+/// A custom tint color for the nav bar. Be aware that if this view is pushed, 
+/// then this will change the color of all nav bars in the navigation stack.
+@property (nonatomic, retain) UIColor * navBarTintColor;
+
+/// A custom tint color for the tool bar.
+@property (nonatomic, retain) UIColor * toolBarTintColor;
+
 /**
  * Convenience method if you just want to preview on file;
  */

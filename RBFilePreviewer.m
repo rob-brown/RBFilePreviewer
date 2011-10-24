@@ -30,8 +30,8 @@
 /// An array of QLPreviewItems that can be previewed. 
 @property (nonatomic, copy) NSArray * files;
 
-/// A flag to indicate if the toolbar has been loaded and no longer needs to be loaded.
-@property (nonatomic, assign) BOOL toolBarLoaded;
+/// A custom toolbar to replace QLPreviewController's irregular toolbar.
+@property (nonatomic, retain) UIToolbar * toolbar;
 
 /// The previous document button.
 @property (nonatomic, retain) UIBarButtonItem * leftButton;
@@ -56,12 +56,14 @@
 
 @implementation RBFilePreviewer
 
-@synthesize showActionButton;
-@synthesize files;
-@synthesize toolBarLoaded;
-@synthesize leftButton;
-@synthesize rightButton;
-@synthesize rightBarButtonItem;
+@synthesize showActionButton   = _showActionButton;
+@synthesize files              = _files;
+@synthesize leftButton         = _leftButton;
+@synthesize rightButton        = _rightButton;
+@synthesize rightBarButtonItem = _rightBarButtonItem;
+@synthesize toolbar            = _toolbar;
+@synthesize navBarTintColor    = _navBarTintColor;
+@synthesize toolBarTintColor   = _toolBarTintColor;
 
 - (id)initWithFile:(id<QLPreviewItem>)file {
     
@@ -140,7 +142,7 @@
 - (void)addToolbarIfApplicable {
     
     // Adds a toolbar to the view so it's available to both pushed views and modal views.
-    if (![self toolBarLoaded] && [[self files] count] > 1) {
+    if (![self toolbar] && [[self files] count] > 1) {
         
         const CGFloat kStandardHeight = 44.0f;
         CGFloat superViewWidth = self.view.frame.size.width;
@@ -168,23 +170,19 @@
         [self setLeftButton:left];
         [self setRightButton:right];
         [[self view] addSubview:toolbar];
+        [self setToolbar:toolbar];
         [toolbar release];
         [left release];
         [right release];
         [flexibleSpace release];
         
         [self updateArrows];
-        [self setToolBarLoaded:YES];
+        [[self toolbar] setTintColor:[self toolBarTintColor]];
     }
 }
 
 + (BOOL)isFilePreviewingSupported {
 	return NSClassFromString(@"QLPreviewController") != nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
@@ -230,12 +228,16 @@
     [super viewDidLoad];
     
     NSAssert([self navigationController], @"RBFilePreviewer must be in a nav controller.");
+    
+    [[[self navigationController] navigationBar] setTintColor:[self navBarTintColor]];
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
     
-    [self setToolBarLoaded:NO];
+    [self setLeftButton:nil];
+    [self setRightButton:nil];
+    [self setToolbar:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -259,6 +261,11 @@
     [self addToolbarIfApplicable];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 
 #pragma mark - Memory Management
 
@@ -272,6 +279,8 @@
     [self setLeftButton:nil];
     [self setRightButton:nil];
     [self setRightBarButtonItem:nil];
+    [self setNavBarTintColor:nil];
+    [self setToolBarTintColor:nil];
     [super dealloc];
 }
 
