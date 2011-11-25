@@ -25,8 +25,6 @@
 #import <UIKit/UIKit.h>
 #import <QuickLook/QuickLook.h>
 
-#import "RBFile.h"
-
 /**
  * A subclass of QLPreviewController to make previewing files even easier. 
  * Unlike QLPreviewController, RBFilePreviewer show the document navigation 
