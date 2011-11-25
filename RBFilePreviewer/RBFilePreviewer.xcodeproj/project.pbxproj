@@ -1,0 +1,436 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5301FAC9147F904C006577C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5301FAC7147F904C006577C1 /* InfoPlist.strings */; };
+		5301FAE7147F92D2006577C1 /* arrow-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 5359BD5C147EB0A60026BE56 /* arrow-left.png */; };
+		5301FAE8147F92D6006577C1 /* arrow-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 5359BD5D147EB0A60026BE56 /* arrow-right.png */; };
+		5301FAF3147F973F006577C1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5301FAF2147F973F006577C1 /* UIKit.framework */; };
+		5301FAF7147F985D006577C1 /* RBResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5301FAF5147F985D006577C1 /* RBResourceManager.h */; };
+		5301FAF8147F985D006577C1 /* RBResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5301FAF6147F985D006577C1 /* RBResourceManager.m */; };
+		5301FAFA147F9917006577C1 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5301FAF9147F9917006577C1 /* QuickLook.framework */; };
+		5359BD40147EB0040026BE56 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5359BD3F147EB0040026BE56 /* Foundation.framework */; };
+		5359BD59147EB05D0026BE56 /* RBFilePreviewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5359BD52147EB05D0026BE56 /* RBFilePreviewer.h */; };
+		5359BD5A147EB05D0026BE56 /* RBFilePreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5301FABD147F904B006577C1 /* RBFilePreviewerResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RBFilePreviewerResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		5301FAC6147F904C006577C1 /* RBFilePreviewerResources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RBFilePreviewerResources-Info.plist"; sourceTree = "<group>"; };
+		5301FAC8147F904C006577C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5301FACA147F904C006577C1 /* RBFilePreviewerResources-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RBFilePreviewerResources-Prefix.pch"; sourceTree = "<group>"; };
+		5301FAF2147F973F006577C1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5301FAF5147F985D006577C1 /* RBResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBResourceManager.h; sourceTree = "<group>"; };
+		5301FAF6147F985D006577C1 /* RBResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBResourceManager.m; sourceTree = "<group>"; };
+		5301FAF9147F9917006577C1 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		5359BD3C147EB0040026BE56 /* libRBFilePreviewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRBFilePreviewer.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5359BD3F147EB0040026BE56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5359BD43147EB0040026BE56 /* RBFilePreviewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RBFilePreviewer-Prefix.pch"; sourceTree = "<group>"; };
+		5359BD4D147EB05D0026BE56 /* RBBaseFileGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBBaseFileGenerator.h; path = ../../RBBaseFileGenerator.h; sourceTree = "<group>"; };
+		5359BD4E147EB05D0026BE56 /* RBBaseFileGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBBaseFileGenerator.m; path = ../../RBBaseFileGenerator.m; sourceTree = "<group>"; };
+		5359BD4F147EB05D0026BE56 /* RBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBFile.h; path = ../../RBFile.h; sourceTree = "<group>"; };
+		5359BD50147EB05D0026BE56 /* RBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBFile.m; path = ../../RBFile.m; sourceTree = "<group>"; };
+		5359BD51147EB05D0026BE56 /* RBFileGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBFileGenerator.h; path = ../../RBFileGenerator.h; sourceTree = "<group>"; };
+		5359BD52147EB05D0026BE56 /* RBFilePreviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBFilePreviewer.h; path = ../../RBFilePreviewer.h; sourceTree = "<group>"; };
+		5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBFilePreviewer.m; path = ../../RBFilePreviewer.m; sourceTree = "<group>"; };
+		5359BD5C147EB0A60026BE56 /* arrow-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow-left.png"; path = "../../arrow-left.png"; sourceTree = "<group>"; };
+		5359BD5D147EB0A60026BE56 /* arrow-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow-right.png"; path = "../../arrow-right.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5301FABA147F904B006577C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5359BD39147EB0040026BE56 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5301FAFA147F9917006577C1 /* QuickLook.framework in Frameworks */,
+				5301FAF3147F973F006577C1 /* UIKit.framework in Frameworks */,
+				5359BD40147EB0040026BE56 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5301FAC4147F904C006577C1 /* RBFilePreviewerResources */ = {
+			isa = PBXGroup;
+			children = (
+				5301FAC5147F904C006577C1 /* Supporting Files */,
+			);
+			path = RBFilePreviewerResources;
+			sourceTree = "<group>";
+		};
+		5301FAC5147F904C006577C1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5301FAC6147F904C006577C1 /* RBFilePreviewerResources-Info.plist */,
+				5301FAC7147F904C006577C1 /* InfoPlist.strings */,
+				5301FACA147F904C006577C1 /* RBFilePreviewerResources-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5301FAED147F9563006577C1 /* Classes-not-used */ = {
+			isa = PBXGroup;
+			children = (
+				5359BD4D147EB05D0026BE56 /* RBBaseFileGenerator.h */,
+				5359BD4E147EB05D0026BE56 /* RBBaseFileGenerator.m */,
+				5359BD4F147EB05D0026BE56 /* RBFile.h */,
+				5359BD50147EB05D0026BE56 /* RBFile.m */,
+				5359BD51147EB05D0026BE56 /* RBFileGenerator.h */,
+			);
+			name = "Classes-not-used";
+			sourceTree = "<group>";
+		};
+		5301FAF4147F985D006577C1 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				5301FAF5147F985D006577C1 /* RBResourceManager.h */,
+				5301FAF6147F985D006577C1 /* RBResourceManager.m */,
+			);
+			name = Detail;
+			path = ../../Detail;
+			sourceTree = "<group>";
+		};
+		5359BD31147EB0030026BE56 = {
+			isa = PBXGroup;
+			children = (
+				5359BD41147EB0040026BE56 /* RBFilePreviewer */,
+				5301FAC4147F904C006577C1 /* RBFilePreviewerResources */,
+				5359BD3E147EB0040026BE56 /* Frameworks */,
+				5359BD3D147EB0040026BE56 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5359BD3D147EB0040026BE56 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5359BD3C147EB0040026BE56 /* libRBFilePreviewer.a */,
+				5301FABD147F904B006577C1 /* RBFilePreviewerResources.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5359BD3E147EB0040026BE56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5301FAF9147F9917006577C1 /* QuickLook.framework */,
+				5301FAF2147F973F006577C1 /* UIKit.framework */,
+				5359BD3F147EB0040026BE56 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5359BD41147EB0040026BE56 /* RBFilePreviewer */ = {
+			isa = PBXGroup;
+			children = (
+				5301FAED147F9563006577C1 /* Classes-not-used */,
+				5359BD5B147EB0970026BE56 /* Resources */,
+				5359BD4C147EB0420026BE56 /* Classes */,
+				5359BD42147EB0040026BE56 /* Supporting Files */,
+			);
+			path = RBFilePreviewer;
+			sourceTree = "<group>";
+		};
+		5359BD42147EB0040026BE56 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5359BD43147EB0040026BE56 /* RBFilePreviewer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5359BD4C147EB0420026BE56 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5301FAF4147F985D006577C1 /* Detail */,
+				5359BD52147EB05D0026BE56 /* RBFilePreviewer.h */,
+				5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		5359BD5B147EB0970026BE56 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5359BD5C147EB0A60026BE56 /* arrow-left.png */,
+				5359BD5D147EB0A60026BE56 /* arrow-right.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5359BD3A147EB0040026BE56 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5359BD59147EB05D0026BE56 /* RBFilePreviewer.h in Headers */,
+				5301FAF7147F985D006577C1 /* RBResourceManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		5301FABC147F904B006577C1 /* RBFilePreviewerResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5301FACD147F904C006577C1 /* Build configuration list for PBXNativeTarget "RBFilePreviewerResources" */;
+			buildPhases = (
+				5301FAB9147F904B006577C1 /* Sources */,
+				5301FABA147F904B006577C1 /* Frameworks */,
+				5301FABB147F904B006577C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RBFilePreviewerResources;
+			productName = RBFilePreviewerResources;
+			productReference = 5301FABD147F904B006577C1 /* RBFilePreviewerResources.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		5359BD3B147EB0040026BE56 /* RBFilePreviewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5359BD49147EB0040026BE56 /* Build configuration list for PBXNativeTarget "RBFilePreviewer" */;
+			buildPhases = (
+				5359BD38147EB0040026BE56 /* Sources */,
+				5359BD39147EB0040026BE56 /* Frameworks */,
+				5359BD3A147EB0040026BE56 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RBFilePreviewer;
+			productName = RBFilePreviewer;
+			productReference = 5359BD3C147EB0040026BE56 /* libRBFilePreviewer.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5359BD33147EB0030026BE56 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "EPAM systems";
+			};
+			buildConfigurationList = 5359BD36147EB0030026BE56 /* Build configuration list for PBXProject "RBFilePreviewer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5359BD31147EB0030026BE56;
+			productRefGroup = 5359BD3D147EB0040026BE56 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5359BD3B147EB0040026BE56 /* RBFilePreviewer */,
+				5301FABC147F904B006577C1 /* RBFilePreviewerResources */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5301FABB147F904B006577C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5301FAC9147F904C006577C1 /* InfoPlist.strings in Resources */,
+				5301FAE7147F92D2006577C1 /* arrow-left.png in Resources */,
+				5301FAE8147F92D6006577C1 /* arrow-right.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5301FAB9147F904B006577C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5359BD38147EB0040026BE56 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5359BD5A147EB05D0026BE56 /* RBFilePreviewer.m in Sources */,
+				5301FAF8147F985D006577C1 /* RBResourceManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5301FAC7147F904C006577C1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5301FAC8147F904C006577C1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5301FACB147F904C006577C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RBFilePreviewerResources/RBFilePreviewerResources-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "RBFilePreviewerResources/RBFilePreviewerResources-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		5301FACC147F904C006577C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RBFilePreviewerResources/RBFilePreviewerResources-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "RBFilePreviewerResources/RBFilePreviewerResources-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		5359BD47147EB0040026BE56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5359BD48147EB0040026BE56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5359BD4A147EB0040026BE56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/RBFilePreviewer.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RBFilePreviewer/RBFilePreviewer-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5359BD4B147EB0040026BE56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/RBFilePreviewer.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RBFilePreviewer/RBFilePreviewer-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5301FACD147F904C006577C1 /* Build configuration list for PBXNativeTarget "RBFilePreviewerResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5301FACB147F904C006577C1 /* Debug */,
+				5301FACC147F904C006577C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5359BD36147EB0030026BE56 /* Build configuration list for PBXProject "RBFilePreviewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5359BD47147EB0040026BE56 /* Debug */,
+				5359BD48147EB0040026BE56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5359BD49147EB0040026BE56 /* Build configuration list for PBXNativeTarget "RBFilePreviewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5359BD4A147EB0040026BE56 /* Debug */,
+				5359BD4B147EB0040026BE56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5359BD33147EB0030026BE56 /* Project object */;
+}
