@@ -153,18 +153,19 @@
                                   kStandardHeight);
         
         UIToolbar * toolbar = [[UIToolbar alloc] initWithFrame:frame];
-        UIBarButtonItem * left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow-left.png"]
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self 
-                                                                 action:@selector(showPreviousDocument:)];
-        UIBarButtonItem * right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow-right.png"]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self 
-                                                                  action:@selector(showNextDocument:)];
+        UIBarButtonItem * left = [[UIBarButtonItem alloc] initWithImage: [ RBResourceManager previewerPngImageNamed: @"arrow-left" ]
+                                                                  style: UIBarButtonItemStyleBordered
+                                                                 target: self 
+                                                                 action: @selector(showPreviousDocument:)];
+       
+        UIBarButtonItem * right = [[UIBarButtonItem alloc] initWithImage: [RBResourceManager previewerPngImageNamed: @"arrow-right" ]
+                                                                   style: UIBarButtonItemStyleBordered
+                                                                  target: self 
+                                                                  action: @selector(showNextDocument:)];
         
-        UIBarButtonItem * flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                                        target:nil 
-                                                                                        action:nil];
+        UIBarButtonItem * flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
+                                                                                        target: nil 
+                                                                                        action: nil];
         
         [toolbar setItems:[NSArray arrayWithObjects:flexibleSpace, left, flexibleSpace, right, flexibleSpace, nil]];
         [self setLeftButton:left];
@@ -193,14 +194,22 @@
 }
 
 
-- (id <QLPreviewItem>) previewController: (QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-	return [[self files] objectAtIndex:index];
+-(id <QLPreviewItem>)previewController:( QLPreviewController* )controller 
+                    previewItemAtIndex:( NSInteger )index
+{
+   id <QLPreviewItem> result_ = [ [ self files ] objectAtIndex: index ];  
+   self.showActionButton = [ result_.previewItemURL isFileURL ];
+
+	return result_;
 }
 
 
 #pragma mark - QLPreviewControllerDelegate methods
 
-- (BOOL)previewController:(QLPreviewController *)controller shouldOpenURL:(NSURL *)url forPreviewItem:(id <QLPreviewItem>)item {
+- (BOOL)previewController:(QLPreviewController *)controller 
+            shouldOpenURL:(NSURL *)url 
+           forPreviewItem:(id <QLPreviewItem>)item 
+{
 	return YES;
 }
 
@@ -261,7 +270,8 @@
     [self addToolbarIfApplicable];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
     // Return YES for supported orientations.
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
