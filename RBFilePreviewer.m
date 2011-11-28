@@ -51,38 +51,44 @@
 /// Updates the enabled/disabled state of the document navigation arrows.
 - (void)updateArrows;
 
+@property (nonatomic, retain) UIBarButtonItem * rightBarButtonItemBackup;
+
 @end
 
 
 @implementation RBFilePreviewer
 
-@synthesize showActionButton   = _showActionButton;
-@synthesize files              = _files;
-@synthesize leftButton         = _leftButton;
-@synthesize rightButton        = _rightButton;
-@synthesize rightBarButtonItem = _rightBarButtonItem;
-@synthesize toolbar            = _toolbar;
-@synthesize navBarTintColor    = _navBarTintColor;
-@synthesize toolBarTintColor   = _toolBarTintColor;
+@synthesize showActionButton         = _showActionButton;
+@synthesize files                    = _files;
+@synthesize leftButton               = _leftButton;
+@synthesize rightButton              = _rightButton;
+@synthesize rightBarButtonItem       = _rightBarButtonItem;
+@synthesize toolbar                  = _toolbar;
+@synthesize navBarTintColor          = _navBarTintColor;
+@synthesize toolBarTintColor         = _toolBarTintColor;
+@synthesize rightBarButtonItemBackup = _rightBarButtonItemBackup;
+
 
 - (id)initWithFile:(id<QLPreviewItem>)file {
     
     return [self initWithFiles:[NSArray arrayWithObject:file]];
 }
 
-- (id)initWithFiles:(NSArray *)theFiles {
-	
+- (id)initWithFiles:(NSArray *)theFiles 
+{
     NSAssert([theFiles count] > 0, @"Empty file array.");
     
-    if ((self = [super init])) {
-		
+    if ((self = [super init])) 
+    {	
         [self setShowActionButton:YES];
-		[self setFiles:theFiles];
+		  [self setFiles:theFiles];
         [self setDataSource:self];
         [self setDelegate:self];
         [self setCurrentPreviewItemIndex:0];
+       
+        self.rightBarButtonItemBackup = self.navigationItem.rightBarButtonItem;
     }
-	
+
     return self;
 }
 
@@ -128,22 +134,31 @@
     [[self leftButton] setEnabled:(index != 0)];
 }
 
-- (void)removeActionButtonIfApplicable {
-    
-    // Replaces the action button if desired.
-    if ([self rightBarButtonItem])
-        [[self navigationItem] setRightBarButtonItem:[self rightBarButtonItem]];
-    // Hides the action button if not wanted.
-    else if (![self showActionButton])
-        [[self navigationItem] setRightBarButtonItem:nil 
-                                            animated:NO];
+-(void)removeActionButtonIfApplicable 
+{
+   // Replaces the action button if desired.
+   if ([self rightBarButtonItem])
+   {
+      self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
+   }
+   // Hides the action button if not wanted.
+   else if ( !self.showActionButton )
+   {
+      [ self.navigationItem setRightBarButtonItem: nil 
+                                         animated: NO ];
+   }
+   else // Restores the action button if required
+   {
+      [ self.navigationItem setRightBarButtonItem: self.rightBarButtonItemBackup 
+                                          animated: NO ];
+   }
 }
 
-- (void)addToolbarIfApplicable {
-    
+- (void)addToolbarIfApplicable
+{   
     // Adds a toolbar to the view so it's available to both pushed views and modal views.
-    if (![self toolbar] && [[self files] count] > 1) {
-        
+    if (![self toolbar] && [[self files] count] > 1) 
+    {
         const CGFloat kStandardHeight = 44.0f;
         CGFloat superViewWidth = self.view.frame.size.width;
         CGFloat superViewHeight = self.view.frame.size.height;
@@ -200,6 +215,8 @@
    id <QLPreviewItem> result_ = [ [ self files ] objectAtIndex: index ];  
    self.showActionButton = [ result_.previewItemURL isFileURL ];
 
+   [ self removeActionButtonIfApplicable ];
+   
 	return result_;
 }
 
@@ -253,9 +270,11 @@
     [super viewDidAppear:animated];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated 
+{   
     [super viewWillAppear:animated];
     
+    self.rightBarButtonItemBackup = self.navigationItem.rightBarButtonItem;
     [self removeActionButtonIfApplicable];
     
     // Overrides the original done button if the previewer was presented modally.
@@ -263,7 +282,7 @@
         UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
                                                                                      target:self 
                                                                                      action:@selector(dismissView:)];
-        [[self navigationItem] setLeftBarButtonItem:doneButton];
+        [ self.navigationItem setLeftBarButtonItem:doneButton];
         [doneButton release];
     }
     
@@ -284,13 +303,16 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc {
-	[self setFiles:nil];
+- (void)dealloc 
+{
+  	 [self setFiles:nil];
     [self setLeftButton:nil];
     [self setRightButton:nil];
     [self setRightBarButtonItem:nil];
     [self setNavBarTintColor:nil];
     [self setToolBarTintColor:nil];
+    [ self setRightBarButtonItemBackup: nil ];
+   
     [super dealloc];
 }
 
