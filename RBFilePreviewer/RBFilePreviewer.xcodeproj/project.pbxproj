@@ -14,6 +14,7 @@
 		5301FAF7147F985D006577C1 /* RBResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5301FAF5147F985D006577C1 /* RBResourceManager.h */; };
 		5301FAF8147F985D006577C1 /* RBResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5301FAF6147F985D006577C1 /* RBResourceManager.m */; };
 		5301FAFA147F9917006577C1 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5301FAF9147F9917006577C1 /* QuickLook.framework */; };
+		5325A44B1485394A00BCAFCC /* RBFilePreviewerAppearanceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5325A44A1485394A00BCAFCC /* RBFilePreviewerAppearanceDelegate.h */; };
 		5359BD40147EB0040026BE56 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5359BD3F147EB0040026BE56 /* Foundation.framework */; };
 		5359BD59147EB05D0026BE56 /* RBFilePreviewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5359BD52147EB05D0026BE56 /* RBFilePreviewer.h */; };
 		5359BD5A147EB05D0026BE56 /* RBFilePreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */; };
@@ -28,6 +29,7 @@
 		5301FAF5147F985D006577C1 /* RBResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBResourceManager.h; sourceTree = "<group>"; };
 		5301FAF6147F985D006577C1 /* RBResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBResourceManager.m; sourceTree = "<group>"; };
 		5301FAF9147F9917006577C1 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		5325A44A1485394A00BCAFCC /* RBFilePreviewerAppearanceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBFilePreviewerAppearanceDelegate.h; path = ../../RBFilePreviewerAppearanceDelegate.h; sourceTree = "<group>"; };
 		5359BD3C147EB0040026BE56 /* libRBFilePreviewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRBFilePreviewer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5359BD3F147EB0040026BE56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5359BD43147EB0040026BE56 /* RBFilePreviewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RBFilePreviewer-Prefix.pch"; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				5301FAF4147F985D006577C1 /* Detail */,
 				5359BD52147EB05D0026BE56 /* RBFilePreviewer.h */,
 				5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */,
+				5325A44A1485394A00BCAFCC /* RBFilePreviewerAppearanceDelegate.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 			files = (
 				5359BD59147EB05D0026BE56 /* RBFilePreviewer.h in Headers */,
 				5301FAF7147F985D006577C1 /* RBResourceManager.h in Headers */,
+				5325A44B1485394A00BCAFCC /* RBFilePreviewerAppearanceDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

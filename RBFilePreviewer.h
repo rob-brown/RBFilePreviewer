@@ -25,6 +25,8 @@
 #import <UIKit/UIKit.h>
 #import <QuickLook/QuickLook.h>
 
+@protocol RBFilePreviewerAppearanceDelegate;
+
 /**
  * A subclass of QLPreviewController to make previewing files even easier. 
  * Unlike QLPreviewController, RBFilePreviewer show the document navigation 
@@ -48,6 +50,10 @@
 
 /// A custom tint color for the tool bar.
 @property (nonatomic, retain) UIColor * toolBarTintColor;
+
+
+@property (nonatomic, assign) id<RBFilePreviewerAppearanceDelegate> appearanceDelegate;
+@property (nonatomic, retain) id<RBFilePreviewerAppearanceDelegate> appearanceRetainedDelegate;
 
 /**
  * Convenience method if you just want to preview on file;
