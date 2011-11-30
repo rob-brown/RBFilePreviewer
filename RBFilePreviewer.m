@@ -51,8 +51,6 @@
 /// Updates the enabled/disabled state of the document navigation arrows.
 - (void)updateArrows;
 
-@property (nonatomic, retain) UIBarButtonItem * rightBarButtonItemBackup;
-
 @end
 
 
@@ -66,7 +64,6 @@
 @synthesize toolbar                  = _toolbar;
 @synthesize navBarTintColor          = _navBarTintColor;
 @synthesize toolBarTintColor         = _toolBarTintColor;
-@synthesize rightBarButtonItemBackup = _rightBarButtonItemBackup;
 
 @synthesize appearanceDelegate         = _appearanceDelegate;
 @synthesize appearanceRetainedDelegate = _appearanceRetainedDelegate;
@@ -87,7 +84,6 @@
    [self setRightBarButtonItem:nil];
    [self setNavBarTintColor:nil];
    [self setToolBarTintColor:nil];
-   [ self setRightBarButtonItemBackup: nil ];
    
    self.appearanceRetainedDelegate = nil;
    
@@ -97,9 +93,12 @@
 #pragma mark -
 #pragma mark Initializers
 
-- (id)initWithFile:(id<QLPreviewItem>)file {
-    
-    return [self initWithFiles:[NSArray arrayWithObject:file]];
+-(id)initWithFile:(id<QLPreviewItem>)file 
+{
+    RBFilePreviewer* result_ = [self initWithFiles:[NSArray arrayWithObject:file]];
+    [ result_ setCurrentPreviewItemIndex: 0 ];
+   
+    return result_;
 }
 
 - (id)initWithFiles:(NSArray *)theFiles 
@@ -113,8 +112,6 @@
         [self setDataSource:self];
         [self setDelegate:self];
         [self setCurrentPreviewItemIndex:0];
-       
-        self.rightBarButtonItemBackup = self.navigationItem.rightBarButtonItem;
     }
 
     return self;
@@ -151,6 +148,8 @@
         return;
     
     [super setCurrentPreviewItemIndex:index];
+    self.showActionButton = [ [ [ self.files objectAtIndex: index ] previewItemURL ] isFileURL ];
+
     [self updateArrows];
     [self removeActionButtonIfApplicable];
 }
@@ -176,11 +175,6 @@
    {
       [ self.navigationItem setRightBarButtonItem: nil 
                                          animated: NO ];
-   }
-   else // Restores the action button if required
-   {
-      [ self.navigationItem setRightBarButtonItem: self.rightBarButtonItemBackup 
-                                          animated: NO ];
    }
 }
 
@@ -232,6 +226,12 @@
 }
 
 
+-(void)applyColorScheme
+{
+   [ self.appearanceDelegate         customizeAppearanceForPreviewController: self ];
+   [ self.appearanceRetainedDelegate customizeAppearanceForPreviewController: self ];
+}
+
 #pragma mark - 
 #pragma mark QLPreviewControllerDataSource methods.
 - (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
@@ -244,8 +244,7 @@
 {
    id <QLPreviewItem> result_ = [ [ self files ] objectAtIndex: index ];  
    self.showActionButton = [ result_.previewItemURL isFileURL ];
-
-   [ self removeActionButtonIfApplicable ];
+   [ self applyColorScheme ];
    
 	return result_;
 }
@@ -283,11 +282,11 @@
 #pragma mark UIViewController
 -(void)viewDidLoad
 {
-   [super viewDidLoad];
-   
-   NSAssert([self navigationController], @"RBFilePreviewer must be in a nav controller.");
-   
-   [[[self navigationController] navigationBar] setTintColor:[self navBarTintColor]];
+   [ super viewDidLoad ];
+
+   NSAssert( self.navigationController, @"RBFilePreviewer must be in a nav controller.");
+
+   self.navigationController.navigationBar.tintColor = self.navBarTintColor;
 }
 
 -(void)viewDidUnload
@@ -303,10 +302,7 @@
 {   
    [ super viewWillAppear: animated_ ];
 
-   [ self.appearanceDelegate         customizeAppearanceForPreviewController: self ];
-   [ self.appearanceRetainedDelegate customizeAppearanceForPreviewController: self ];
-   
-   self.rightBarButtonItemBackup = self.navigationItem.rightBarButtonItem;
+   [ self applyColorScheme ];
    [self removeActionButtonIfApplicable];
    
    // Overrides the original done button if the previewer was presented modally.
