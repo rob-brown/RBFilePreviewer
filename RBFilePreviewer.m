@@ -244,7 +244,6 @@
 {
    id <QLPreviewItem> result_ = [ [ self files ] objectAtIndex: index ];  
    self.showActionButton = [ result_.previewItemURL isFileURL ];
-   [ self applyColorScheme ];
    
 	return result_;
 }
