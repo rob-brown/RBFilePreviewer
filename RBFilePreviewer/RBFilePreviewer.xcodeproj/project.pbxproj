@@ -18,6 +18,14 @@
 		5359BD40147EB0040026BE56 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5359BD3F147EB0040026BE56 /* Foundation.framework */; };
 		5359BD59147EB05D0026BE56 /* RBFilePreviewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5359BD52147EB05D0026BE56 /* RBFilePreviewer.h */; };
 		5359BD5A147EB05D0026BE56 /* RBFilePreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */; };
+		5B811D2B14878C71001B46D8 /* RBFilePreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */; };
+		5B811D2C14878C71001B46D8 /* RBResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5301FAF6147F985D006577C1 /* RBResourceManager.m */; };
+		5B811D2E14878C71001B46D8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5301FAF9147F9917006577C1 /* QuickLook.framework */; };
+		5B811D2F14878C71001B46D8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5301FAF2147F973F006577C1 /* UIKit.framework */; };
+		5B811D3014878C71001B46D8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5359BD3F147EB0040026BE56 /* Foundation.framework */; };
+		5B811D3214878C71001B46D8 /* RBFilePreviewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5359BD52147EB05D0026BE56 /* RBFilePreviewer.h */; };
+		5B811D3314878C71001B46D8 /* RBResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5301FAF5147F985D006577C1 /* RBResourceManager.h */; };
+		5B811D3414878C71001B46D8 /* RBFilePreviewerAppearanceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5325A44A1485394A00BCAFCC /* RBFilePreviewerAppearanceDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +50,7 @@
 		5359BD53147EB05D0026BE56 /* RBFilePreviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBFilePreviewer.m; path = ../../RBFilePreviewer.m; sourceTree = "<group>"; };
 		5359BD5C147EB0A60026BE56 /* arrow-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow-left.png"; path = "../../arrow-left.png"; sourceTree = "<group>"; };
 		5359BD5D147EB0A60026BE56 /* arrow-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "arrow-right.png"; path = "../../arrow-right.png"; sourceTree = "<group>"; };
+		5B811D3814878C71001B46D8 /* libRBFilePreviewer-clang.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libRBFilePreviewer-clang.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +68,16 @@
 				5301FAFA147F9917006577C1 /* QuickLook.framework in Frameworks */,
 				5301FAF3147F973F006577C1 /* UIKit.framework in Frameworks */,
 				5359BD40147EB0040026BE56 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B811D2D14878C71001B46D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B811D2E14878C71001B46D8 /* QuickLook.framework in Frameworks */,
+				5B811D2F14878C71001B46D8 /* UIKit.framework in Frameworks */,
+				5B811D3014878C71001B46D8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +139,7 @@
 			children = (
 				5359BD3C147EB0040026BE56 /* libRBFilePreviewer.a */,
 				5301FABD147F904B006577C1 /* RBFilePreviewerResources.bundle */,
+				5B811D3814878C71001B46D8 /* libRBFilePreviewer-clang.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +206,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5B811D3114878C71001B46D8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B811D3214878C71001B46D8 /* RBFilePreviewer.h in Headers */,
+				5B811D3314878C71001B46D8 /* RBResourceManager.h in Headers */,
+				5B811D3414878C71001B46D8 /* RBFilePreviewerAppearanceDelegate.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -223,6 +253,23 @@
 			productReference = 5359BD3C147EB0040026BE56 /* libRBFilePreviewer.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		5B811D2914878C71001B46D8 /* RBFilePreviewer-clang */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B811D3514878C71001B46D8 /* Build configuration list for PBXNativeTarget "RBFilePreviewer-clang" */;
+			buildPhases = (
+				5B811D2A14878C71001B46D8 /* Sources */,
+				5B811D2D14878C71001B46D8 /* Frameworks */,
+				5B811D3114878C71001B46D8 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RBFilePreviewer-clang";
+			productName = RBFilePreviewer;
+			productReference = 5B811D3814878C71001B46D8 /* libRBFilePreviewer-clang.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -246,6 +293,7 @@
 			targets = (
 				5359BD3B147EB0040026BE56 /* RBFilePreviewer */,
 				5301FABC147F904B006577C1 /* RBFilePreviewerResources */,
+				5B811D2914878C71001B46D8 /* RBFilePreviewer-clang */,
 			);
 		};
 /* End PBXProject section */
@@ -277,6 +325,15 @@
 			files = (
 				5359BD5A147EB05D0026BE56 /* RBFilePreviewer.m in Sources */,
 				5301FAF8147F985D006577C1 /* RBResourceManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5B811D2A14878C71001B46D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B811D2B14878C71001B46D8 /* RBFilePreviewer.m in Sources */,
+				5B811D2C14878C71001B46D8 /* RBResourceManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +461,32 @@
 			};
 			name = Release;
 		};
+		5B811D3614878C71001B46D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/RBFilePreviewer.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RBFilePreviewer/RBFilePreviewer-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "RBFilePreviewer-clang";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5B811D3714878C71001B46D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/RBFilePreviewer.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RBFilePreviewer/RBFilePreviewer-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "RBFilePreviewer-clang";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -430,6 +513,15 @@
 			buildConfigurations = (
 				5359BD4A147EB0040026BE56 /* Debug */,
 				5359BD4B147EB0040026BE56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5B811D3514878C71001B46D8 /* Build configuration list for PBXNativeTarget "RBFilePreviewer-clang" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B811D3614878C71001B46D8 /* Debug */,
+				5B811D3714878C71001B46D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
