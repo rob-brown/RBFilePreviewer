@@ -51,6 +51,12 @@
 /// Updates the enabled/disabled state of the document navigation arrows.
 - (void)updateArrows;
 
+#pragma mark -
+#pragma mark UIApplicationDidEnterBackgroundNotification
+-(void)subscribeToBackgroundNotifications;
+-(void)unsubscribeFromBackgroundNotifications;
+-(void)applicationDidEnterBackgroundNotification:( NSNotification* )notification_;
+
 @end
 
 
@@ -78,6 +84,8 @@
 
 - (void)dealloc 
 {
+   [ [ NSNotificationCenter defaultCenter ] removeObserver: self ];
+   
    [self setFiles:nil];
    [self setLeftButton:nil];
    [self setRightButton:nil];
@@ -217,7 +225,11 @@
         [flexibleSpace release];
         
         [self updateArrows];
-        [[self toolbar] setTintColor:[self toolBarTintColor]];
+       
+       if ( nil != self.toolBarTintColor )
+       {
+          [[self toolbar] setTintColor:[self toolBarTintColor]];
+       }
     }
 }
 
@@ -284,8 +296,12 @@
    [ super viewDidLoad ];
 
    NSAssert( self.navigationController, @"RBFilePreviewer must be in a nav controller.");
-
-   self.navigationController.navigationBar.tintColor = self.navBarTintColor;
+   [ self subscribeToBackgroundNotifications ];
+   
+   if ( nil != self.navBarTintColor )
+   {
+      self.navigationController.navigationBar.tintColor = self.navBarTintColor;
+   }
 }
 
 -(void)viewDidUnload
@@ -295,6 +311,18 @@
    [self setLeftButton:nil];
    [self setRightButton:nil];
    [self setToolbar:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated_
+{
+   [ super viewDidAppear: animated_ ];
+   [ self subscribeToBackgroundNotifications ];
+}
+
+-(void)viewDidDisappear:(BOOL)animated_
+{
+   [ super viewDidDisappear: animated_ ];
+   [ self unsubscribeFromBackgroundNotifications ];
 }
 
 -(void)viewWillAppear:(BOOL)animated_
@@ -320,6 +348,29 @@
 {
     // Return YES for supported orientations.
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+
+#pragma mark -
+#pragma mark UIApplicationDidEnterBackgroundNotification
+-(void)subscribeToBackgroundNotifications
+{
+   [ [ NSNotificationCenter  defaultCenter ] addObserver: self
+                                                selector: @selector( applicationDidEnterBackgroundNotification: )
+                                                    name: UIApplicationDidEnterBackgroundNotification
+                                                  object: nil ];
+}
+
+-(void)unsubscribeFromBackgroundNotifications
+{
+   [ [ NSNotificationCenter defaultCenter ] removeObserver: self 
+                                                      name: UIApplicationDidEnterBackgroundNotification
+                                                    object: nil ];
+}
+
+-(void)applicationDidEnterBackgroundNotification:( NSNotification* )notification_
+{
+   [ self.navigationController popViewControllerAnimated: NO ];
 }
 
 @end
