@@ -25,7 +25,10 @@
 #import <UIKit/UIKit.h>
 #import <QuickLook/QuickLook.h>
 
-@protocol RBFilePreviewerAppearanceDelegate;
+@class RBFilePreviewer;
+
+typedef void(^RBFilePreviewCustomizeBlock)(RBFilePreviewer * previewer);
+
 
 /**
  * A subclass of QLPreviewController to make previewing files even easier. 
@@ -42,18 +45,18 @@
 @property (nonatomic, assign) BOOL showActionButton;
 
 /// You may add a custom right bar button item instead of using the print button.
-@property (nonatomic, retain) UIBarButtonItem * rightBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem * rightBarButtonItem;
 
 /// A custom tint color for the nav bar. Be aware that if this view is pushed, 
 /// then this will change the color of all nav bars in the navigation stack.
-@property (nonatomic, retain) UIColor * navBarTintColor;
+@property (nonatomic, strong) UIColor * navBarTintColor;
 
 /// A custom tint color for the tool bar.
-@property (nonatomic, retain) UIColor * toolBarTintColor;
+@property (nonatomic, strong) UIColor * toolBarTintColor;
 
+/// A block for customizing the appearance of the RBFilePreviewer.
+@property (nonatomic, copy) RBFilePreviewCustomizeBlock block;
 
-@property (nonatomic, assign) id<RBFilePreviewerAppearanceDelegate> appearanceDelegate;
-@property (nonatomic, retain) id<RBFilePreviewerAppearanceDelegate> appearanceRetainedDelegate;
 
 /**
  * Convenience method if you just want to preview on file;

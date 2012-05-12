@@ -30,7 +30,7 @@
 /**
  * The URL of the underlying file. May be lazy loaded.
  */
-@property (nonatomic, retain) NSURL * url;
+@property (nonatomic, strong) NSURL * url;
 
 @end
 

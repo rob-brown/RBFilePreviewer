@@ -37,7 +37,7 @@
 /**
  * An optional ivar for holding a file generator for lazy loading files.
  */
-@property (nonatomic, retain) id<RBFileGenerator> fileGenerator;
+@property (nonatomic, strong) id<RBFileGenerator> fileGenerator;
 
 /**
  * An optional title to give to the file. If no title is given, then the title 
