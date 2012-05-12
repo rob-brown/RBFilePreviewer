@@ -23,7 +23,7 @@
 //
 
 #import "RBFilePreviewer.h"
-
+#import "RBFilePreviewerAppearanceDelegate.h"
 
 @interface RBFilePreviewer ()
 
@@ -51,41 +51,82 @@
 /// Updates the enabled/disabled state of the document navigation arrows.
 - (void)updateArrows;
 
+#pragma mark -
+#pragma mark UIApplicationDidEnterBackgroundNotification
+-(void)subscribeToBackgroundNotifications;
+-(void)unsubscribeFromBackgroundNotifications;
+-(void)applicationDidEnterBackgroundNotification:( NSNotification* )notification_;
+
 @end
 
 
 @implementation RBFilePreviewer
 
-@synthesize showActionButton   = _showActionButton;
-@synthesize files              = _files;
-@synthesize leftButton         = _leftButton;
-@synthesize rightButton        = _rightButton;
-@synthesize rightBarButtonItem = _rightBarButtonItem;
-@synthesize toolbar            = _toolbar;
-@synthesize navBarTintColor    = _navBarTintColor;
-@synthesize toolBarTintColor   = _toolBarTintColor;
+@synthesize showActionButton         = _showActionButton;
+@synthesize files                    = _files;
+@synthesize leftButton               = _leftButton;
+@synthesize rightButton              = _rightButton;
+@synthesize rightBarButtonItem       = _rightBarButtonItem;
+@synthesize toolbar                  = _toolbar;
+@synthesize navBarTintColor          = _navBarTintColor;
+@synthesize toolBarTintColor         = _toolBarTintColor;
 
-- (id)initWithFile:(id<QLPreviewItem>)file {
-    
-    return [self initWithFiles:[NSArray arrayWithObject:file]];
+@synthesize appearanceDelegate         = _appearanceDelegate;
+@synthesize appearanceRetainedDelegate = _appearanceRetainedDelegate;
+
+
+#pragma mark - Memory Management
+
+- (void)didReceiveMemoryWarning {
+   // Releases the view if it doesn't have a superview.
+   [super didReceiveMemoryWarning];
 }
 
-- (id)initWithFiles:(NSArray *)theFiles {
-	
+- (void)dealloc 
+{
+   [ [ NSNotificationCenter defaultCenter ] removeObserver: self ];
+   
+   [self setFiles:nil];
+   [self setLeftButton:nil];
+   [self setRightButton:nil];
+   [self setRightBarButtonItem:nil];
+   [self setNavBarTintColor:nil];
+   [self setToolBarTintColor:nil];
+   
+   self.appearanceRetainedDelegate = nil;
+   
+   [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Initializers
+
+-(id)initWithFile:(id<QLPreviewItem>)file 
+{
+    RBFilePreviewer* result_ = [self initWithFiles:[NSArray arrayWithObject:file]];
+    [ result_ setCurrentPreviewItemIndex: 0 ];
+   
+    return result_;
+}
+
+- (id)initWithFiles:(NSArray *)theFiles 
+{
     NSAssert([theFiles count] > 0, @"Empty file array.");
     
-    if ((self = [super init])) {
-		
+    if ((self = [super init])) 
+    {	
         [self setShowActionButton:YES];
-		[self setFiles:theFiles];
+		  [self setFiles:theFiles];
         [self setDataSource:self];
         [self setDelegate:self];
         [self setCurrentPreviewItemIndex:0];
     }
-	
+
     return self;
 }
 
+#pragma mark -
+#pragma mark Utilities
 - (BOOL)isModalViewController {
     return ([[[self navigationController] parentViewController] modalViewController] || 
             [[self parentViewController] modalViewController]);
@@ -115,6 +156,8 @@
         return;
     
     [super setCurrentPreviewItemIndex:index];
+    self.showActionButton = [ [ [ self.files objectAtIndex: index ] previewItemURL ] isFileURL ];
+
     [self updateArrows];
     [self removeActionButtonIfApplicable];
 }
@@ -128,22 +171,26 @@
     [[self leftButton] setEnabled:(index != 0)];
 }
 
-- (void)removeActionButtonIfApplicable {
-    
-    // Replaces the action button if desired.
-    if ([self rightBarButtonItem])
-        [[self navigationItem] setRightBarButtonItem:[self rightBarButtonItem]];
-    // Hides the action button if not wanted.
-    else if (![self showActionButton])
-        [[self navigationItem] setRightBarButtonItem:nil 
-                                            animated:NO];
+-(void)removeActionButtonIfApplicable 
+{
+   // Replaces the action button if desired.
+   if ([self rightBarButtonItem])
+   {
+      self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
+   }
+   // Hides the action button if not wanted.
+   else if ( !self.showActionButton )
+   {
+      [ self.navigationItem setRightBarButtonItem: nil 
+                                         animated: NO ];
+   }
 }
 
-- (void)addToolbarIfApplicable {
-    
+- (void)addToolbarIfApplicable
+{   
     // Adds a toolbar to the view so it's available to both pushed views and modal views.
-    if (![self toolbar] && [[self files] count] > 1) {
-        
+    if (![self toolbar] && [[self files] count] > 1) 
+    {
         const CGFloat kStandardHeight = 44.0f;
         CGFloat superViewWidth = self.view.frame.size.width;
         CGFloat superViewHeight = self.view.frame.size.height;
@@ -153,18 +200,19 @@
                                   kStandardHeight);
         
         UIToolbar * toolbar = [[UIToolbar alloc] initWithFrame:frame];
-        UIBarButtonItem * left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow-left.png"]
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self 
-                                                                 action:@selector(showPreviousDocument:)];
-        UIBarButtonItem * right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"arrow-right.png"]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self 
-                                                                  action:@selector(showNextDocument:)];
+        UIBarButtonItem * left = [[UIBarButtonItem alloc] initWithImage: [ RBResourceManager previewerPngImageNamed: @"arrow-left" ]
+                                                                  style: UIBarButtonItemStyleBordered
+                                                                 target: self 
+                                                                 action: @selector(showPreviousDocument:)];
+       
+        UIBarButtonItem * right = [[UIBarButtonItem alloc] initWithImage: [RBResourceManager previewerPngImageNamed: @"arrow-right" ]
+                                                                   style: UIBarButtonItemStyleBordered
+                                                                  target: self 
+                                                                  action: @selector(showNextDocument:)];
         
-        UIBarButtonItem * flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                                        target:nil 
-                                                                                        action:nil];
+        UIBarButtonItem * flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFlexibleSpace
+                                                                                        target: nil 
+                                                                                        action: nil];
         
         [toolbar setItems:[NSArray arrayWithObjects:flexibleSpace, left, flexibleSpace, right, flexibleSpace, nil]];
         [self setLeftButton:left];
@@ -177,7 +225,11 @@
         [flexibleSpace release];
         
         [self updateArrows];
-        [[self toolbar] setTintColor:[self toolBarTintColor]];
+       
+       if ( nil != self.toolBarTintColor )
+       {
+          [[self toolbar] setTintColor:[self toolBarTintColor]];
+       }
     }
 }
 
@@ -186,21 +238,35 @@
 }
 
 
-#pragma mark - QLPreviewControllerDataSource methods.
+-(void)applyColorScheme
+{
+   [ self.appearanceDelegate         customizeAppearanceForPreviewController: self ];
+   [ self.appearanceRetainedDelegate customizeAppearanceForPreviewController: self ];
+}
 
+#pragma mark - 
+#pragma mark QLPreviewControllerDataSource methods.
 - (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
 	return [[self files] count];
 }
 
 
-- (id <QLPreviewItem>) previewController: (QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-	return [[self files] objectAtIndex:index];
+-(id <QLPreviewItem>)previewController:( QLPreviewController* )controller 
+                    previewItemAtIndex:( NSInteger )index
+{
+   id <QLPreviewItem> result_ = [ [ self files ] objectAtIndex: index ];  
+   self.showActionButton = [ result_.previewItemURL isFileURL ];
+   
+	return result_;
 }
 
 
-#pragma mark - QLPreviewControllerDelegate methods
-
-- (BOOL)previewController:(QLPreviewController *)controller shouldOpenURL:(NSURL *)url forPreviewItem:(id <QLPreviewItem>)item {
+#pragma mark - 
+#pragma mark QLPreviewControllerDelegate methods
+- (BOOL)previewController:(QLPreviewController *)controller 
+            shouldOpenURL:(NSURL *)url 
+           forPreviewItem:(id <QLPreviewItem>)item 
+{
 	return YES;
 }
 
@@ -213,7 +279,8 @@
 }
 
 
-#pragma mark - UIDocumentInteractionControllerDelegate
+#pragma mark -
+#pragma mark UIDocumentInteractionControllerDelegate
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)interactionController {
     return [self parentViewController];
@@ -222,66 +289,88 @@
 // TODO: Add more support for UIDocumentInteractionController.
 
 
-#pragma mark - View Lifetime
+#pragma mark - 
+#pragma mark UIViewController
+-(void)viewDidLoad
+{
+   [ super viewDidLoad ];
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    NSAssert([self navigationController], @"RBFilePreviewer must be in a nav controller.");
-    
-    [[[self navigationController] navigationBar] setTintColor:[self navBarTintColor]];
+   NSAssert( self.navigationController, @"RBFilePreviewer must be in a nav controller.");
+   [ self subscribeToBackgroundNotifications ];
+   
+   if ( nil != self.navBarTintColor )
+   {
+      self.navigationController.navigationBar.tintColor = self.navBarTintColor;
+   }
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    
-    [self setLeftButton:nil];
-    [self setRightButton:nil];
-    [self setToolbar:nil];
+-(void)viewDidUnload
+{
+   [super viewDidUnload];
+   
+   [self setLeftButton:nil];
+   [self setRightButton:nil];
+   [self setToolbar:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)viewDidAppear:(BOOL)animated_
+{
+   [ super viewDidAppear: animated_ ];
+   [ self subscribeToBackgroundNotifications ];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self removeActionButtonIfApplicable];
-    
-    // Overrides the original done button if the previewer was presented modally.
-    if ([self isModalViewController]) {
-        UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
-                                                                                     target:self 
-                                                                                     action:@selector(dismissView:)];
-        [[self navigationItem] setLeftBarButtonItem:doneButton];
-        [doneButton release];
-    }
-    
-    [self addToolbarIfApplicable];
+-(void)viewDidDisappear:(BOOL)animated_
+{
+   [ super viewDidDisappear: animated_ ];
+   [ self unsubscribeFromBackgroundNotifications ];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+-(void)viewWillAppear:(BOOL)animated_
+{   
+   [ super viewWillAppear: animated_ ];
+
+   [ self applyColorScheme ];
+   [self removeActionButtonIfApplicable];
+   
+   // Overrides the original done button if the previewer was presented modally.
+   if ([self isModalViewController]) {
+      UIBarButtonItem * doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
+                                                                                   target:self 
+                                                                                   action:@selector(dismissView:)];
+      [ self.navigationItem setLeftBarButtonItem:doneButton];
+      [doneButton release];
+   }
+   
+   [self addToolbarIfApplicable];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
     // Return YES for supported orientations.
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
-#pragma mark - Memory Management
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+#pragma mark -
+#pragma mark UIApplicationDidEnterBackgroundNotification
+-(void)subscribeToBackgroundNotifications
+{
+   [ [ NSNotificationCenter  defaultCenter ] addObserver: self
+                                                selector: @selector( applicationDidEnterBackgroundNotification: )
+                                                    name: UIApplicationDidEnterBackgroundNotification
+                                                  object: nil ];
 }
 
-- (void)dealloc {
-	[self setFiles:nil];
-    [self setLeftButton:nil];
-    [self setRightButton:nil];
-    [self setRightBarButtonItem:nil];
-    [self setNavBarTintColor:nil];
-    [self setToolBarTintColor:nil];
-    [super dealloc];
+-(void)unsubscribeFromBackgroundNotifications
+{
+   [ [ NSNotificationCenter defaultCenter ] removeObserver: self 
+                                                      name: UIApplicationDidEnterBackgroundNotification
+                                                    object: nil ];
+}
+
+-(void)applicationDidEnterBackgroundNotification:( NSNotification* )notification_
+{
+   [ self.navigationController popViewControllerAnimated: NO ];
 }
 
 @end
