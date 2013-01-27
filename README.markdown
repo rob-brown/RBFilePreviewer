@@ -1,5 +1,8 @@
 #RBFilePreviewer
 
+##WARNING:
+`RBFilePreviewer` does not work on iOS 6. `QLPreviewController` has been changed to use XPC. This prevents any customization, and I have not found any work arounds.
+
 ##Summary
 `RBFilePreviewer` is a subclass of `QLPreviewController`. It is intended to make it easy to preview any `QLPreviewItem`. All you need to do is pass it the desired item(s) to preview to the appropriate initializer. You may use the provided `RBFile` class or any other class that conforms to `QLPreviewItem` (including `NSURL`).
 
